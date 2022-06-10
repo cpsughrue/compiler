@@ -1,30 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-typedef enum
-{
-    // grouping
-    RIGHT_PAREN,
-    LEFT_RAREN,
+#include "token.h"
 
-    // mathematical operations
-    MINUS,
-    PLUS,
-    SLASH,
-    STAR,
 
-    // literals
-    STRING,
-    INTEGER
+void scan(char* line)
+{}
 
-} token_type;
 
-struct token
-{
-    token_type type;
-    
-};
+
 
 
 int main()
@@ -36,11 +20,11 @@ int main()
         return EXIT_FAILURE;
     }
 
-    char str[80];
-    while (fgets(str, 80, fp) != NULL)
+    const short LIMIT = 80;
+    char line[LIMIT];
+    while (fgets(line, LIMIT, fp) != NULL)
     {
-        printf("%s", str);
-        printf("%ld", strlen(str));
+        printf("%s", line);
     }
     printf("\n");
 
