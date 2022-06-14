@@ -1,5 +1,7 @@
-gcc scanner.c -o scanner
+cd src
 
-./scanner
+gcc main.c scanner.c -o language
 
-rm ./scanner
+./language ../program.txt
+
+rm ./language
