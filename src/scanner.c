@@ -24,20 +24,6 @@ void print_token(TOKEN *token)
     printf("%s: [%s]\n", TOKEN_T_CHAR[token->type], token->lexeme);
 }
 
-void print_all_tokens(TOKEN *head)
-{
-    TOKEN *prev = head;
-    TOKEN *curr = head->next;
-
-    print_token(prev);
-    while (curr != NULL)
-    {
-        prev = curr;
-        curr = curr->next;
-        print_token(prev);
-    }
-}
-
 TOKEN *create_token(char *lexeme, TOKEN_T type)
 {
     TOKEN *new_token = (TOKEN *)malloc(sizeof(TOKEN));
@@ -61,6 +47,34 @@ TOKEN *append_token(TOKEN *last, TOKEN *new_token)
         printf("append_token did not receive last token\n");
         printf("token received: ");
         print_token(last);
+    }
+}
+
+void free_tokens(TOKEN *head)
+{
+    TOKEN *prev = head;
+    TOKEN *curr = head->next;
+
+    free(prev);
+    while (curr != NULL)
+    {
+        prev = curr;
+        curr = curr->next;
+        free(prev);
+    }
+}
+
+void iterate_tokens(TOKEN *head, void (*fun)(TOKEN *))
+{
+    TOKEN *prev = head;
+    TOKEN *curr = head->next;
+
+    (*fun)(prev);
+    while (curr != NULL)
+    {
+        prev = curr;
+        curr = curr->next;
+        (*fun)(prev);
     }
 }
 
@@ -116,9 +130,8 @@ TOKEN *scan(FILE *fp)
                     lexeme[digit++] = c;
                     c = fgetc(fp);
                 }
-
                 last = append_token(last, create_token(lexeme, INTEGER));
-                ungetc(c, fp); // move cursor back to last digit
+                ungetc(c, fp); // move stream back to last digit
             }
             else
             {
@@ -128,6 +141,5 @@ TOKEN *scan(FILE *fp)
             break;
         }
     }
-
     return head;
 }

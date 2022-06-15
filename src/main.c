@@ -13,7 +13,11 @@ int main(int argc, char *argv[])
     }
 
     TOKEN *head = scan(fp);
-    print_all_tokens(head);
+    // print_all_tokens(head);
+
+    iterate_tokens(head, print_token);
+
+    free_tokens(head);
 
     fclose(fp);
     return EXIT_SUCCESS;

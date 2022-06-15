@@ -37,8 +37,10 @@ TOKEN *create_token(char *lexeme, TOKEN_T type);
 
 TOKEN *append_token(TOKEN *head, TOKEN *new_token);
 
-void print_token(TOKEN *token);
+void iterate_tokens(TOKEN *head, void (*fun)(TOKEN *));
 
-void print_all_tokens(TOKEN *head);
+void free_tokens(TOKEN *head);
+
+void print_token(TOKEN *token);
 
 #endif

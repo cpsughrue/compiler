@@ -1,6 +1,6 @@
 short is_numeric(char c)
 {
-    if(c >= '0' && c <= '9')
+    if (c >= '0' && c <= '9')
     {
         return 1;
     }
