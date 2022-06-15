@@ -17,19 +17,28 @@ typedef enum TOKEN_T
     STAR,
 
     // literals
-    INTEGER
+    INTEGER,
+
+    // other
+    PROGRAM
+
 } TOKEN_T;
 
 typedef struct TOKEN
 {
     TOKEN_T type;
     char lexeme[MAX_LEXEME_LEN]; // raw substrings of the source code.
+    struct TOKEN *next;
 } TOKEN;
+
+TOKEN *scan(FILE *fp);
+
+TOKEN *create_token(char *lexeme, TOKEN_T type);
+
+TOKEN *append_token(TOKEN *head, TOKEN *new_token);
 
 void print_token(TOKEN *token);
 
-void add_token(TOKEN *token_stream, char *lexeme, TOKEN_T type);
-
-void scan(TOKEN *token_stream, char *line);
+void print_all_tokens(TOKEN *head);
 
 #endif

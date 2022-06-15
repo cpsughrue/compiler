@@ -3,8 +3,6 @@
 
 #include "scanner.h"
 
-#define MAX_LINE_LEN 240
-
 int main(int argc, char *argv[])
 {
     FILE *fp = fopen(argv[1], "r");
@@ -14,18 +12,8 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    TOKEN token_stream[MAX_NUM_TOKEN];
-
-    char line[MAX_LINE_LEN];
-    while (fgets(line, MAX_LINE_LEN, fp) != NULL)
-    {
-        scan(token_stream, line);
-    }
-
-    for(int i = 0; i < 14; i++)
-    {
-        print_token(&token_stream[i]);
-    }
+    TOKEN *head = scan(fp);
+    print_all_tokens(head);
 
     fclose(fp);
     return EXIT_SUCCESS;

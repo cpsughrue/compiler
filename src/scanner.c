@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "scanner.h"
+#include "utils.h"
 
 void print_token(TOKEN *token)
 {
@@ -15,89 +16,118 @@ void print_token(TOKEN *token)
             "MINUS", "PLUS", "SLASH", "STAR",
 
             // literals
-            "INTEGER"};
+            "INTEGER",
+
+            // others
+            "PROGRAM"};
 
     printf("%s: [%s]\n", TOKEN_T_CHAR[token->type], token->lexeme);
 }
 
-void add_token(TOKEN *token_stream, char *lexeme, TOKEN_T type)
+void print_all_tokens(TOKEN *head)
 {
-    static int i = 0;
+    TOKEN *prev = head;
+    TOKEN *curr = head->next;
 
-    if (i < MAX_NUM_TOKEN)
+    print_token(prev);
+    while (curr != NULL)
     {
-        TOKEN token;
-
-        token.type = type;
-        strcpy(token.lexeme, lexeme);
-
-        token_stream[i++] = token;
-    }
-    else
-    {
-        printf("number of tokens exceeded maximum amount (max amt: %d)", MAX_NUM_TOKEN);
-        exit(0);
+        prev = curr;
+        curr = curr->next;
+        print_token(prev);
     }
 }
 
-void scan(TOKEN *token_stream, char *line)
+TOKEN *create_token(char *lexeme, TOKEN_T type)
 {
-    short curr = 0;
-    while (curr < strlen(line))
-    {
-        char lexeme[MAX_LEXEME_LEN] = "\0"; // {\0, ..., \0}
-        lexeme[0] = line[curr];
+    TOKEN *new_token = (TOKEN *)malloc(sizeof(TOKEN));
 
-        switch (line[curr])
+    new_token->type = type;
+    strcpy(new_token->lexeme, lexeme);
+    new_token->next = NULL;
+
+    return new_token;
+}
+
+TOKEN *append_token(TOKEN *last, TOKEN *new_token)
+{
+    if (last->next == NULL)
+    {
+        last->next = new_token;
+        return new_token;
+    }
+    else
+    {
+        printf("append_token did not receive last token\n");
+        printf("token received: ");
+        print_token(last);
+    }
+}
+
+TOKEN *scan(FILE *fp)
+{
+    TOKEN *head = create_token("PROGRAM", PROGRAM);
+    TOKEN *last = head;
+
+    char c = '~';
+    while ((c = fgetc(fp)) != EOF)
+    {
+        // {c, \0, ..., \0}
+        char lexeme[30] = {c, '\0'};
+
+        switch (c)
         {
-        case ')':
-            add_token(token_stream, lexeme, RIGHT_PAREN);
+        case '(':
+            last = append_token(last, create_token(lexeme, LEFT_PAREN));
             break;
 
-        case '(':
-            add_token(token_stream, lexeme, LEFT_PAREN);
+        case ')':
+            last = append_token(last, create_token(lexeme, RIGHT_PAREN));
             break;
 
         case '+':
-            add_token(token_stream, lexeme, PLUS);
+            last = append_token(last, create_token(lexeme, PLUS));
             break;
 
         case '-':
-            add_token(token_stream, lexeme, MINUS);
-            break;
-
-        case '*':
-            add_token(token_stream, lexeme, STAR);
+            last = append_token(last, create_token(lexeme, MINUS));
             break;
 
         case '/':
-            add_token(token_stream, lexeme, SLASH);
+            last = append_token(last, create_token(lexeme, SLASH));
+            break;
+
+        case '*':
+            last = append_token(last, create_token(lexeme, STAR));
             break;
 
         case ' ':
             break;
-            
+
         case '\n':
             break;
 
         default:
-            if (line[curr] >= 48 && line[curr] <= 57)
+            if (is_numeric(c))
             {
                 short digit = 0;
-                do
+                while (is_numeric(c))
                 {
-                    lexeme[digit++] = line[curr++];
-                } while (line[curr] >= 48 && line[curr] <= 57);
-                
-                add_token(token_stream, lexeme, INTEGER);
-                curr--; // move current back to last digit
+                    lexeme[digit++] = c;
+                    c = fgetc(fp);
+                }
+
+                last = append_token(last, create_token(lexeme, INTEGER));
+                ungetc(c, fp); // move cursor back to last digit
             }
             else
             {
-                printf("invalid token: %c\n", line[curr]);
+                printf("invalid token: %c", c);
             }
+
             break;
         }
-        curr++;
     }
+
+    return head;
 }
