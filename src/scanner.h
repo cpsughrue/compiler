@@ -4,7 +4,7 @@
 #define MAX_NUM_TOKEN 100
 #define MAX_LEXEME_LEN 30
 
-typedef enum
+typedef enum TOKEN_T
 {
     // grouping
     RIGHT_PAREN,
@@ -30,6 +30,6 @@ void print_token(TOKEN *token);
 
 void add_token(TOKEN *token_stream, char *lexeme, TOKEN_T type);
 
-int scan(TOKEN *token_stream, char *line);
+void scan(TOKEN *token_stream, char *line);
 
 #endif

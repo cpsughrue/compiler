@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
         scan(token_stream, line);
     }
 
-    for(int i = 0; i < 7; i++)
+    for(int i = 0; i < 14; i++)
     {
         print_token(&token_stream[i]);
     }

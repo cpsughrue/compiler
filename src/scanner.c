@@ -26,7 +26,11 @@ void add_token(TOKEN *token_stream, char *lexeme, TOKEN_T type)
 
     if (i < MAX_NUM_TOKEN)
     {
-        TOKEN token = {type, *lexeme};
+        TOKEN token;
+
+        token.type = type;
+        strcpy(token.lexeme, lexeme);
+
         token_stream[i++] = token;
     }
     else
@@ -36,7 +40,7 @@ void add_token(TOKEN *token_stream, char *lexeme, TOKEN_T type)
     }
 }
 
-int scan(TOKEN *token_stream, char *line)
+void scan(TOKEN *token_stream, char *line)
 {
     short curr = 0;
     while (curr < strlen(line))
@@ -72,20 +76,28 @@ int scan(TOKEN *token_stream, char *line)
 
         case ' ':
             break;
+            
+        case '\n':
+            break;
 
         default:
             if (line[curr] >= 48 && line[curr] <= 57)
             {
+                short digit = 0;
+                do
+                {
+                    lexeme[digit++] = line[curr++];
+                } while (line[curr] >= 48 && line[curr] <= 57);
+                
                 add_token(token_stream, lexeme, INTEGER);
+                curr--; // move current back to last digit
             }
             else
             {
                 printf("invalid token: %c\n", line[curr]);
-                exit(0);
             }
             break;
         }
         curr++;
     }
-    return 0;
 }
