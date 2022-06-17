@@ -12,12 +12,12 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    TOKEN *head = scan(fp);
-    // print_all_tokens(head);
-
-    iterate_tokens(head, print_token);
-
-    free_tokens(head);
+    TOKEN token = create_token("PROGRAM", PROGRAM);
+    while (token.type != END_OF_FILE)
+    {
+        token = scan(fp);
+        print_token(token);
+    }
 
     fclose(fp);
     return EXIT_SUCCESS;

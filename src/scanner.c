@@ -5,84 +5,28 @@
 #include "scanner.h"
 #include "utils.h"
 
-void print_token(TOKEN *token)
+void print_token(TOKEN token)
 {
     const char *TOKEN_T_CHAR[] =
         {
-            // grouping
-            "RIGHT_PAREN", "LEFT_PAREN",
-
-            // mathematical operations
-            "MINUS", "PLUS", "SLASH", "STAR",
-
-            // literals
-            "INTEGER",
-
-            // others
-            "PROGRAM"};
-
-    printf("%s: [%s]\n", TOKEN_T_CHAR[token->type], token->lexeme);
+            "RIGHT_PAREN", "LEFT_PAREN",      // grouping
+            "MINUS", "PLUS", "SLASH", "STAR", // mathematical operations
+            "INTEGER",                        // literals
+            "PROGRAM", "END_OF_FILE"          // others
+        };
+    printf("%s: [%s]\n", TOKEN_T_CHAR[token.type], token.lexeme);
 }
 
-TOKEN *create_token(char *lexeme, TOKEN_T type)
+TOKEN create_token(char *lexeme, TOKEN_T type)
 {
-    TOKEN *new_token = (TOKEN *)malloc(sizeof(TOKEN));
-
-    new_token->type = type;
-    strcpy(new_token->lexeme, lexeme);
-    new_token->next = NULL;
-
+    TOKEN new_token;
+    new_token.type = type;
+    strcpy(new_token.lexeme, lexeme);
     return new_token;
 }
 
-TOKEN *append_token(TOKEN *last, TOKEN *new_token)
+TOKEN scan(FILE *fp)
 {
-    if (last->next == NULL)
-    {
-        last->next = new_token;
-        return new_token;
-    }
-    else
-    {
-        printf("append_token did not receive last token\n");
-        printf("token received: ");
-        print_token(last);
-    }
-}
-
-void free_tokens(TOKEN *head)
-{
-    TOKEN *prev = head;
-    TOKEN *curr = head->next;
-
-    free(prev);
-    while (curr != NULL)
-    {
-        prev = curr;
-        curr = curr->next;
-        free(prev);
-    }
-}
-
-void iterate_tokens(TOKEN *head, void (*fun)(TOKEN *))
-{
-    TOKEN *prev = head;
-    TOKEN *curr = head->next;
-
-    (*fun)(prev);
-    while (curr != NULL)
-    {
-        prev = curr;
-        curr = curr->next;
-        (*fun)(prev);
-    }
-}
-
-TOKEN *scan(FILE *fp)
-{
-    TOKEN *head = create_token("PROGRAM", PROGRAM);
-    TOKEN *last = head;
-
     char c = '~';
     while ((c = fgetc(fp)) != EOF)
     {
@@ -91,36 +35,35 @@ TOKEN *scan(FILE *fp)
 
         switch (c)
         {
+        // single character tokens
         case '(':
-            last = append_token(last, create_token(lexeme, LEFT_PAREN));
+            return create_token(lexeme, LEFT_PAREN);
             break;
-
         case ')':
-            last = append_token(last, create_token(lexeme, RIGHT_PAREN));
+            return create_token(lexeme, RIGHT_PAREN);
             break;
-
         case '+':
-            last = append_token(last, create_token(lexeme, PLUS));
+            return create_token(lexeme, PLUS);
             break;
-
         case '-':
-            last = append_token(last, create_token(lexeme, MINUS));
+            return create_token(lexeme, MINUS);
             break;
-
         case '/':
-            last = append_token(last, create_token(lexeme, SLASH));
+            return create_token(lexeme, SLASH);
             break;
-
         case '*':
-            last = append_token(last, create_token(lexeme, STAR));
+            return create_token(lexeme, STAR);
             break;
 
+        // blank space
         case ' ':
-            break;
-
+        case '\t':
+        case '\v':
+        case '\r':
         case '\n':
             break;
 
+        // multi-character length tokens
         default:
             if (is_numeric(c))
             {
@@ -130,16 +73,15 @@ TOKEN *scan(FILE *fp)
                     lexeme[digit++] = c;
                     c = fgetc(fp);
                 }
-                last = append_token(last, create_token(lexeme, INTEGER));
                 ungetc(c, fp); // move stream back to last digit
+                return create_token(lexeme, INTEGER);
             }
             else
             {
                 printf("invalid token: %c", c);
             }
-
             break;
         }
     }
-    return head;
+    return create_token("EOF", END_OF_FILE);
 }
