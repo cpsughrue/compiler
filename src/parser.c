@@ -134,7 +134,6 @@ void parse(FILE *fp)
     */
 
     data.fp = fp;
-    // data.prev = create_token("PROGRAM", PROGRAM);
     data.curr = scan(fp);
 
     EXPR *expr = parse_expresion();
