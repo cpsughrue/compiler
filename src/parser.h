@@ -3,16 +3,17 @@
 
 typedef enum
 {
-    PLUS_EXPR,
-    MINUS_EXPR,
-    MULT_EXPR,
+    ADD_EXPR,
+    SUB_EXPR,
+    MUL_EXPR,
     DIV_EXPR,
-    PRIMARY
-} OPERATOR_T;
+    PRIMARY,
+    UNKNOWN
+} EXPR_T;
 
 typedef struct expr
 {
-    OPERATOR_T type;
+    EXPR_T type;
 
     struct expr *right;
     struct expr *left;
@@ -24,12 +25,13 @@ typedef struct
 {
     FILE *fp;
     TOKEN curr;
-    TOKEN next;
 } PARSER;
+
+void print_ast(EXPR *expr);
 
 void print_expr(EXPR *expr);
 
-EXPR *create_expr(OPERATOR_T type, EXPR *left, EXPR *right, char *lexeme);
+EXPR *create_expr(EXPR_T type, EXPR *left, EXPR *right, char *lexeme);
 
 void consume();
 
