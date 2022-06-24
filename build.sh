@@ -1,7 +1,7 @@
 cd src
 
-gcc main.c scanner.c utils.c -o language
+gcc main.c scanner.c parser.c utils.c -o compiler
 
-./language ../program.txt
+./compiler ../program.txt
 
-rm ./language
+rm ./compiler

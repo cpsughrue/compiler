@@ -20,8 +20,10 @@ void print_token(TOKEN token)
 TOKEN create_token(char *lexeme, TOKEN_T type)
 {
     TOKEN new_token;
+
     new_token.type = type;
     strcpy(new_token.lexeme, lexeme);
+    
     return new_token;
 }
 

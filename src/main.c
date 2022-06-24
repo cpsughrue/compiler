@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "scanner.h"
+#include "parser.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,12 +13,7 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    TOKEN token = create_token("PROGRAM", PROGRAM);
-    while (token.type != END_OF_FILE)
-    {
-        token = scan(fp);
-        print_token(token);
-    }
+    parse(fp);
 
     fclose(fp);
     return EXIT_SUCCESS;

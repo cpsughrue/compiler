@@ -3,7 +3,7 @@
 
 #define MAX_LEXEME_LEN 30
 
-typedef enum TOKEN_T
+typedef enum
 {
     // grouping
     RIGHT_PAREN,
@@ -23,7 +23,7 @@ typedef enum TOKEN_T
     END_OF_FILE
 } TOKEN_T;
 
-typedef struct TOKEN
+typedef struct
 {
     TOKEN_T type;
     char lexeme[MAX_LEXEME_LEN]; // raw substrings of the source code.
