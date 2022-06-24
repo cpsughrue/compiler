@@ -69,17 +69,7 @@ EXPR *parse_addition()
     {
         char operator[2];
         strcpy(operator, data.curr.lexeme);
-
-        EXPR_T expr_t = UNKNOWN;
-        switch (data.curr.type)
-        {
-        case PLUS:
-            expr_t = ADD_EXPR;
-            break;
-        case MINUS:
-            expr_t = SUB_EXPR;
-            break;
-        }
+        EXPR_T expr_t = data.curr.type == PLUS ? ADD_EXPR : SUB_EXPR;
 
         consume();
         EXPR *right = parse_multipication();
@@ -96,17 +86,7 @@ EXPR *parse_multipication()
     {
         char operator[2];
         strcpy(operator, data.curr.lexeme);
-
-        EXPR_T expr_t = UNKNOWN;
-        switch (data.curr.type)
-        {
-        case STAR:
-            expr_t = MUL_EXPR;
-            break;
-        case SLASH:
-            expr_t = DIV_EXPR;
-            break;
-        }
+        EXPR_T expr_t = data.curr.type == STAR ? MUL_EXPR : DIV_EXPR;
 
         consume();
         EXPR *right = parse_primary();
@@ -117,9 +97,19 @@ EXPR *parse_multipication()
 
 EXPR *parse_primary()
 {
-    EXPR *expr = create_expr(PRIMARY, NULL, NULL, data.curr.lexeme);
-    consume();
-    return expr;
+    if (data.curr.type == LEFT_PAREN)
+    {
+        consume(); // LEFT_PAREN
+        EXPR *expr = parse_expresion();
+        consume(); // RIGHT_PAREN
+        return expr;
+    }
+    if (data.curr.type == INTEGER)
+    {
+        EXPR *expr = create_expr(PRIMARY, NULL, NULL, data.curr.lexeme);
+        consume();
+        return expr;
+    }
 }
 
 void parse(FILE *fp)
