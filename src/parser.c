@@ -35,7 +35,7 @@ void print_ast(EXPR *expr)
 
 void print_expr(EXPR *expr)
 {
-    const char *OPERATOR_T_CHAR[] = {"ADD_EXPR", "SUB_EXPR", "MUL_EXPR", "DIV_EXPR", "PRIMARY", "UNKNOWN"};
+    const char *OPERATOR_T_CHAR[] = {"ADD_EXPR", "SUB_EXPR", "MUL_EXPR", "DIV_EXPR", "POW_EXPR", "PRIMARY", "UNKNOWN"};
     printf("%s -> %s\n", OPERATOR_T_CHAR[expr->type], expr->lexeme);
 }
 
@@ -80,7 +80,7 @@ EXPR *parse_addition()
 
 EXPR *parse_multipication()
 {
-    EXPR *expr = parse_primary();
+    EXPR *expr = parse_exponent();
 
     while (data.curr.type == STAR || data.curr.type == SLASH)
     {
@@ -89,8 +89,24 @@ EXPR *parse_multipication()
         EXPR_T expr_t = data.curr.type == STAR ? MUL_EXPR : DIV_EXPR;
 
         consume();
-        EXPR *right = parse_primary();
+        EXPR *right = parse_exponent();
         expr = create_expr(expr_t, expr, right, operator);
+    }
+    return expr;
+}
+
+EXPR *parse_exponent()
+{
+    EXPR *expr = parse_primary();
+
+    while (data.curr.type == CARET)
+    {
+        char operator[2];
+        strcpy(operator, data.curr.lexeme);
+
+        consume();
+        EXPR *right = parse_primary();
+        expr = create_expr(POW_EXPR, expr, right, operator);
     }
     return expr;
 }
@@ -119,7 +135,8 @@ void parse(FILE *fp)
     P -> E
     E -> T{{+|-}T}*
     T -> F{{*|/}F}*
-    F -> int | (E)
+    F -> U{^U}*
+    U -> int | (E)
 
     */
 

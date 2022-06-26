@@ -14,6 +14,7 @@ typedef enum
     PLUS,
     SLASH,
     STAR,
+    CARET,
 
     // literals
     INTEGER,

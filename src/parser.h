@@ -7,6 +7,7 @@ typedef enum
     SUB_EXPR,
     MUL_EXPR,
     DIV_EXPR,
+    POW_EXPR,
     PRIMARY,
     UNKNOWN
 } EXPR_T;
@@ -40,6 +41,8 @@ EXPR *parse_expresion();
 EXPR *parse_addition();
 
 EXPR *parse_multipication();
+
+EXPR *parse_exponent();
 
 EXPR *parse_primary();
 

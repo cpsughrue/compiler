@@ -9,10 +9,10 @@ void print_token(TOKEN token)
 {
     const char *TOKEN_T_CHAR[] =
         {
-            "RIGHT_PAREN", "LEFT_PAREN",      // grouping
-            "MINUS", "PLUS", "SLASH", "STAR", // mathematical operations
-            "INTEGER",                        // literals
-            "PROGRAM", "END_OF_FILE"          // others
+            "RIGHT_PAREN", "LEFT_PAREN",               // grouping
+            "MINUS", "PLUS", "SLASH", "STAR", "CARET", // mathematical operations
+            "INTEGER",                                 // literals
+            "PROGRAM", "END_OF_FILE"                   // others
         };
     printf("%s: [%s]\n", TOKEN_T_CHAR[token.type], token.lexeme);
 }
@@ -23,7 +23,7 @@ TOKEN create_token(char *lexeme, TOKEN_T type)
 
     new_token.type = type;
     strcpy(new_token.lexeme, lexeme);
-    
+
     return new_token;
 }
 
@@ -56,6 +56,9 @@ TOKEN scan(FILE *fp)
         case '*':
             return create_token(lexeme, STAR);
             break;
+        case '^':
+            return create_token(lexeme, CARET);
+            break;
 
         // blank space
         case ' ':
@@ -81,6 +84,7 @@ TOKEN scan(FILE *fp)
             else
             {
                 printf("invalid token: %c", c);
+                exit(0);
             }
             break;
         }
