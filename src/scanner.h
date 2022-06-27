@@ -15,6 +15,7 @@ typedef enum
     SLASH,
     STAR,
     CARET,
+    PERCENT,
 
     // literals
     INTEGER,

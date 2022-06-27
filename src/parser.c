@@ -7,6 +7,22 @@
 
 PARSER data;
 
+void free_ast(EXPR *expr)
+{
+    // postorder traversal of binary tree
+
+    if (expr == NULL)
+    {
+        return;
+    }
+
+    free_ast(expr->left);
+    free_ast(expr->right);
+    free(expr);
+
+    return;
+}
+
 void print_ast(EXPR *expr)
 {
     // inorder traversal of binary tree
@@ -35,7 +51,14 @@ void print_ast(EXPR *expr)
 
 void print_expr(EXPR *expr)
 {
-    const char *OPERATOR_T_CHAR[] = {"ADD_EXPR", "SUB_EXPR", "MUL_EXPR", "DIV_EXPR", "POW_EXPR", "PRIMARY", "UNKNOWN"};
+    const char *OPERATOR_T_CHAR[] = {"ADD_EXPR",
+                                     "SUB_EXPR",
+                                     "MUL_EXPR",
+                                     "DIV_EXPR",
+                                     "POW_EXPR",
+                                     "MOD_EXPR",
+                                     "PRIMARY",
+                                     "UNKNOWN"};
     printf("%s -> %s\n", OPERATOR_T_CHAR[expr->type], expr->lexeme);
 }
 
@@ -82,11 +105,26 @@ EXPR *parse_multipication()
 {
     EXPR *expr = parse_exponent();
 
-    while (data.curr.type == STAR || data.curr.type == SLASH)
+    while (data.curr.type == STAR || data.curr.type == SLASH || data.curr.type == PERCENT)
     {
         char operator[2];
         strcpy(operator, data.curr.lexeme);
-        EXPR_T expr_t = data.curr.type == STAR ? MUL_EXPR : DIV_EXPR;
+
+        EXPR_T expr_t;
+        switch (data.curr.type)
+        {
+        case STAR:
+            expr_t = MUL_EXPR;
+            break;
+        case SLASH:
+            expr_t = DIV_EXPR;
+            break;
+        case PERCENT:
+            expr_t = MOD_EXPR;
+            break;
+        default:
+            break;
+        }
 
         consume();
         EXPR *right = parse_exponent();
@@ -134,7 +172,7 @@ void parse(FILE *fp)
 
     P -> E
     E -> T{{+|-}T}*
-    T -> F{{*|/}F}*
+    T -> F{{*|/|%}F}*
     F -> U{^U}*
     U -> int | (E)
 

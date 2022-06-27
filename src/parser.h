@@ -8,6 +8,7 @@ typedef enum
     MUL_EXPR,
     DIV_EXPR,
     POW_EXPR,
+    MOD_EXPR,
     PRIMARY,
     UNKNOWN
 } EXPR_T;
@@ -27,6 +28,8 @@ typedef struct
     FILE *fp;
     TOKEN curr;
 } PARSER;
+
+void free_ast(EXPR *expr);
 
 void print_ast(EXPR *expr);
 
