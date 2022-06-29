@@ -14,14 +14,20 @@ void print_token(TOKEN token)
             "INTEGER",                                            // literals
             "PROGRAM", "END_OF_FILE"                              // others
         };
-    printf("%s: [%s]\n", TOKEN_T_CHAR[token.type], token.lexeme);
+    printf("%-11s: [%s] <line: %d, column: %d>\n",
+           TOKEN_T_CHAR[token.type],
+           token.lexeme,
+           token.line,
+           token.column);
 }
 
-TOKEN create_token(char *lexeme, TOKEN_T type)
+TOKEN create_token(char *lexeme, int line, int column, TOKEN_T type)
 {
     TOKEN new_token;
 
     new_token.type = type;
+    new_token.line = line;
+    new_token.column = column;
     strcpy(new_token.lexeme, lexeme);
 
     return new_token;
@@ -29,38 +35,42 @@ TOKEN create_token(char *lexeme, TOKEN_T type)
 
 TOKEN scan(FILE *fp)
 {
+    static int line = 1;
+    static int column = 0;
+
     char c = '~';
     while ((c = fgetc(fp)) != EOF)
     {
         // {c, \0, ..., \0}
         char lexeme[30] = {c, '\0'};
+        column++;
 
         switch (c)
         {
         // single character tokens
         case '(':
-            return create_token(lexeme, LEFT_PAREN);
+            return create_token(lexeme, line, column, LEFT_PAREN);
             break;
         case ')':
-            return create_token(lexeme, RIGHT_PAREN);
+            return create_token(lexeme, line, column, RIGHT_PAREN);
             break;
         case '+':
-            return create_token(lexeme, PLUS);
+            return create_token(lexeme, line, column, PLUS);
             break;
         case '-':
-            return create_token(lexeme, MINUS);
+            return create_token(lexeme, line, column, MINUS);
             break;
         case '/':
-            return create_token(lexeme, SLASH);
+            return create_token(lexeme, line, column, SLASH);
             break;
         case '*':
-            return create_token(lexeme, STAR);
+            return create_token(lexeme, line, column, STAR);
             break;
         case '^':
-            return create_token(lexeme, CARET);
+            return create_token(lexeme, line, column, CARET);
             break;
         case '%':
-            return create_token(lexeme, PERCENT);
+            return create_token(lexeme, line, column, PERCENT);
             break;
 
         // blank space
@@ -68,7 +78,11 @@ TOKEN scan(FILE *fp)
         case '\t':
         case '\v':
         case '\r':
+            break;
+
         case '\n':
+            line++;
+            column = 0;
             break;
 
         // multi-character length tokens
@@ -82,7 +96,7 @@ TOKEN scan(FILE *fp)
                     c = fgetc(fp);
                 }
                 ungetc(c, fp); // move stream back to last digit
-                return create_token(lexeme, INTEGER);
+                return create_token(lexeme, line, column, INTEGER);
             }
             else
             {
@@ -92,5 +106,5 @@ TOKEN scan(FILE *fp)
             break;
         }
     }
-    return create_token("EOF", END_OF_FILE);
+    return create_token("EOF", line, column, END_OF_FILE);
 }

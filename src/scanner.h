@@ -28,12 +28,14 @@ typedef enum
 typedef struct
 {
     TOKEN_T type;
-    char lexeme[MAX_LEXEME_LEN]; // raw substrings of the source code.
+    char lexeme[MAX_LEXEME_LEN]; // raw substrings of source code.
+    int line;
+    int column;
 } TOKEN;
 
 TOKEN scan(FILE *fp);
 
-TOKEN create_token(char *lexeme, TOKEN_T type);
+TOKEN create_token(char *lexeme, int line, int column, TOKEN_T type);
 
 void print_token(TOKEN token);
 

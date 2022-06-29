@@ -16,5 +16,6 @@ int main(int argc, char *argv[])
     parse(fp);
 
     fclose(fp);
+
     return EXIT_SUCCESS;
 }

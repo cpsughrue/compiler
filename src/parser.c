@@ -60,6 +60,7 @@ void print_expr(EXPR *expr)
                                      "PRIMARY",
                                      "UNKNOWN"};
     printf("%s -> %s\n", OPERATOR_T_CHAR[expr->type], expr->lexeme);
+    return;
 }
 
 EXPR *create_expr(EXPR_T type, EXPR *left, EXPR *right, char *lexeme)
@@ -76,7 +77,9 @@ EXPR *create_expr(EXPR_T type, EXPR *left, EXPR *right, char *lexeme)
 
 void consume()
 {
+    print_token(data.curr);
     data.curr = scan(data.fp);
+    return;
 }
 
 EXPR *parse_expresion()
@@ -171,10 +174,10 @@ void parse(FILE *fp)
     /*
 
     P -> E
-    E -> T{{+|-}T}*
-    T -> F{{*|/|%}F}*
-    F -> U{^U}*
-    U -> int | (E)
+    E -> T((+|-)T)*
+    T -> F((*|/|%)F)*
+    F -> U(^U)*
+    U -> int | "("E")"
 
     */
 
@@ -184,4 +187,9 @@ void parse(FILE *fp)
     EXPR *expr = parse_expresion();
 
     print_ast(expr);
+    printf("\n");
+
+    free_ast(expr);
+
+    return;
 }
