@@ -35,16 +35,7 @@ section .bss
     ;
 
 section .text
-    global _start
- 
-_start:
- 
-    mov rax, 256    ; integer to print
-    call _printRAX
- 
-    mov rax, 60     ; exit syscall
-    mov rdi, 0      ; 1st arg: error_code
-    syscall
+     global _printRAX
  
 
 _printRAX:
@@ -59,7 +50,6 @@ _printRAX:
     ; increment pos 
     inc rcx             ; x++
     mov [pos], rcx      ; *pos = &buffer[x]
- 
 
 
 ; load digits into buffer
