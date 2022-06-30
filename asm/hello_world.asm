@@ -1,5 +1,5 @@
 ; hello_world
-; x86-64 Intel Syntax
+; 32bit x86-64 Intel Syntax
 
 global _start
 
