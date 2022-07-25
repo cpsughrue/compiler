@@ -1,4 +1,3 @@
-
 # -f        specifies the output file format
 # elf64     x86_64 64 bit object files
 
