@@ -42,23 +42,16 @@ void print_ast(EXPR *expr)
     print_ast(expr->right);
 
     if (expr->type != PRIMARY)
-    {
         printf(")");
-    }
 
     return;
 }
 
 void print_expr(EXPR *expr)
 {
-    const char *OPERATOR_T_CHAR[] = {"ADD_EXPR",
-                                     "SUB_EXPR",
-                                     "MUL_EXPR",
-                                     "DIV_EXPR",
-                                     "POW_EXPR",
-                                     "MOD_EXPR",
-                                     "PRIMARY",
-                                     "UNKNOWN"};
+    const char *OPERATOR_T_CHAR[] = {"ADD_EXPR", "SUB_EXPR", "MUL_EXPR",
+                                     "DIV_EXPR", "POW_EXPR", "MOD_EXPR",
+                                     "PRIMARY", "UNKNOWN"};
     printf("%s -> %s\n", OPERATOR_T_CHAR[expr->type], expr->lexeme);
     return;
 }
@@ -82,10 +75,7 @@ void consume()
     return;
 }
 
-EXPR *parse_expresion()
-{
-    return parse_addition();
-}
+EXPR *parse_expresion() { return parse_addition(); }
 
 EXPR *parse_addition()
 {
@@ -108,7 +98,8 @@ EXPR *parse_multipication()
 {
     EXPR *expr = parse_exponent();
 
-    while (data.curr.type == STAR || data.curr.type == SLASH || data.curr.type == PERCENT)
+    while (data.curr.type == STAR || data.curr.type == SLASH ||
+           data.curr.type == PERCENT)
     {
         char operator[2];
         strcpy(operator, data.curr.lexeme);
@@ -169,7 +160,7 @@ EXPR *parse_primary()
     }
 }
 
-void parse(FILE *fp)
+EXPR *parse(FILE *fp)
 {
     /*
 
@@ -189,7 +180,5 @@ void parse(FILE *fp)
     print_ast(expr);
     printf("\n");
 
-    free_ast(expr);
-
-    return;
+    return expr;
 }

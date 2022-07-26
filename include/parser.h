@@ -49,6 +49,6 @@ EXPR *parse_exponent();
 
 EXPR *parse_primary();
 
-void parse(FILE *fp);
+EXPR *parse(FILE *fp);
 
 #endif

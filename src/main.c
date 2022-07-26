@@ -13,7 +13,8 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    parse(fp);
+    EXPR *expr = parse(fp);
+    free_ast(expr);
 
     fclose(fp);
 
