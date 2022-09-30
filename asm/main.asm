@@ -1,10 +1,10 @@
 section .text
     global _start
     extern _printRAX
-
+    extern _program
 
 ; print negative sign
-_print_negative:
+_print_minus:
 
     push 0x2D       ; '-'
     
@@ -21,7 +21,7 @@ _print_negative:
 
 _start:
     
-    mov  rax, -4     
+    call  _program
 
     cmp  rax, 0
     jl   negative ; if negative print '-'
@@ -30,7 +30,7 @@ _start:
     negative:
         imul rax, -1
         push rax
-        call _print_negative
+        call _print_minus
         pop  rax
 
     print:

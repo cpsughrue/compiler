@@ -1,4 +1,4 @@
-; print_integer
+; print positive integer
 ; 64bit x86-64 Intel Syntax
 
 ; [expression] means content of memory at address expression
