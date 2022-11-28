@@ -1,4 +1,4 @@
-; print positive integer
+; print contents of RAX interpreted as unsigned 64 bit integer
 ; 64bit x86-64 Intel Syntax
 
 ; [expression] means content of memory at address expression

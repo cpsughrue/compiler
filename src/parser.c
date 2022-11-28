@@ -42,7 +42,9 @@ void print_ast(EXPR *expr)
     print_ast(expr->right);
 
     if (expr->type != PRIMARY)
+    {
         printf(")");
+    }
 
     return;
 }
@@ -65,6 +67,7 @@ EXPR *create_expr(EXPR_T type, EXPR *left, EXPR *right, char *lexeme)
     expr->left = left;
     strcpy(expr->lexeme, lexeme);
 
+    print_expr(expr);
     return expr;
 }
 
