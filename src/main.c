@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "parser.h"
+#include "code_gen.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,9 +13,14 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    EXPR *expr = parse(fp);
-    free_ast(expr);
+    // genrate AST
+    EXPR *ast = parse(fp);
 
+    // generate 64bit x86-64 Intel Syntax assembly
+    generate_code(ast);
+
+    // free AST and close file
+    free_ast(ast);
     fclose(fp);
 
     return EXIT_SUCCESS;
