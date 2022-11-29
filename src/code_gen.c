@@ -36,12 +36,17 @@ void generate_code(EXPR *expr, FILE *fp)
     case SUB_EXPR:
         LOG_EXPR(expr);
         pop(fp);
-        fprintf(fp, "\tsub\t\tr10,\tr11\n");
+        fprintf(fp, "\tsub\t\tr11,\tr10\n");
         fprintf(fp, "\tpush\tr11\n");
         break;
 
     case MUL_EXPR:
         LOG_EXPR(expr);
+        pop(fp);
+        fprintf(fp, "\tmov\t\trax,\tr11\n");
+        fprintf(fp, "\timul\tr10\n");
+        fprintf(fp, "\tmov\t\tr11,\trax\n");
+        fprintf(fp, "\tpush\tr11\n");
         break;
 
     case DIV_EXPR:
@@ -72,7 +77,7 @@ void generate_code(EXPR *expr, FILE *fp)
 void code_gen(EXPR *expr)
 {
 
-    FILE *fp = fopen("../asm/output.asm", "w");
+    FILE *fp = fopen("../asm/program.asm", "w");
 
     fprintf(fp, "\n");
     fprintf(fp, "section .text\n");
