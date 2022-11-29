@@ -3,6 +3,8 @@
 
 #include "parser.h"
 
-void generate_code(EXPR *ast);
+void generate_code(EXPR *expr, FILE *fp);
+void code_gen(EXPR *expr);
+void pop(FILE *fp);
 
 #endif

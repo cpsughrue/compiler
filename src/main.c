@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     EXPR *ast = parse(fp);
 
     // generate 64bit x86-64 Intel Syntax assembly
-    generate_code(ast);
+    code_gen(ast);
 
     // free AST and close file
     free_ast(ast);
