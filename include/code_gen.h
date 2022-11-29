@@ -3,9 +3,6 @@
 
 #include "parser.h"
 
-void generate_code(EXPR *ast)
-{
-    return;
-}
+void generate_code(EXPR *ast);
 
 #endif

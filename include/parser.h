@@ -13,11 +13,11 @@ typedef enum
     MOD_EXPR,
     PRIMARY,
     UNKNOWN
-} EXPR_T;
+} EXPR_TYPE;
 
 typedef struct expr
 {
-    EXPR_T type;
+    EXPR_TYPE type;
 
     struct expr *right;
     struct expr *left;
@@ -37,7 +37,7 @@ void print_ast(EXPR *expr);
 
 void print_expr(EXPR *expr);
 
-EXPR *create_expr(EXPR_T type, EXPR *left, EXPR *right, char *lexeme);
+EXPR *create_expr(EXPR_TYPE type, EXPR *left, EXPR *right, char *lexeme);
 
 void consume();
 
