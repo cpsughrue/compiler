@@ -51,6 +51,11 @@ void generate_code(EXPR *expr, FILE *fp)
 
     case DIV_EXPR:
         LOG_EXPR(expr);
+        pop(fp);
+        fprintf(fp, "\tmov\t\trax,\tr11\n");
+        fprintf(fp, "\tidiv\tr10\n");
+        fprintf(fp, "\tmov\t\tr11,\trax\n");
+        fprintf(fp, "\tpush\tr11\n");
         break;
 
     case POW_EXPR:
@@ -58,6 +63,11 @@ void generate_code(EXPR *expr, FILE *fp)
         break;
 
     case MOD_EXPR:
+        pop(fp);
+        fprintf(fp, "\tmov\t\trax,\tr11\n");
+        fprintf(fp, "\tidiv\tr10\n");
+        fprintf(fp, "\tmov\t\tr11,\trdx\n");
+        fprintf(fp, "\tpush\tr11\n");
         LOG_EXPR(expr);
         break;
 
