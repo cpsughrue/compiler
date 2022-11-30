@@ -7,7 +7,7 @@ To build compiler and compile a simple math problem. Add math problem to `progra
 ```bash
 ./build.sh
 ```
-`build.sh` in addtion to handeling the assembly output files also compiles the compiler with gcc. This helps with debugging and is temporary.
+`build.sh` in addtion to handling the assembly output files also compiles the compiler. This helps with debugging and is temporary.
 
 ## Supported Operators
 - `+`  <- addition
@@ -34,3 +34,9 @@ Current limitations all of which will be addressed
 - `6/3+2`
 - `4 ^ 2 - 6 ^ 2 + 3`
 - `(8 + 2) * 834`
+
+## Dependencies
+In parenthesis are the versions currently installed on my local machine
+- gcc (9.4.0)
+- nasm (2.14.02)
+- ld (2.34)
