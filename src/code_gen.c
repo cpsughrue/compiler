@@ -10,6 +10,7 @@ void pop(FILE *fp)
     fprintf(fp, "\n");
     fprintf(fp, "\tpop\t\tr10\n");
     fprintf(fp, "\tpop\t\tr11\n");
+    fprintf(fp, "\n");
 }
 
 void generate_code(EXPR *expr, FILE *fp)
@@ -22,6 +23,13 @@ void generate_code(EXPR *expr, FILE *fp)
 
     generate_code(expr->left, fp);
     generate_code(expr->right, fp);
+
+    /*
+    In some cases labels are created in the assemble.
+    To differentiate lables with the same funtionality
+    append an int at the end.
+    */
+    static int mangler = 0;
 
     // code gen
     switch (expr->type)
@@ -60,6 +68,34 @@ void generate_code(EXPR *expr, FILE *fp)
 
     case POW_EXPR:
         LOG_EXPR(expr);
+        pop(fp);
+        fprintf(fp, "\tcmp\t\tr10,\t0\n");
+        fprintf(fp, "\tjne\t\tpow_%d\n\n", mangler);
+
+        fprintf(fp, "\tmov\t\trax,\t1\n");
+        fprintf(fp, "\tjmp\t\tpow_end_%d\n\n", mangler);
+
+        fprintf(fp, "\tpow_%d:\n\n", mangler);
+
+        fprintf(fp, "\t\tmov\t\trax,\tr11\n");
+        fprintf(fp, "\t\tmov\t\tr12,\t1\n\n");
+
+        fprintf(fp, "\tpow_loop_%d:\n\n", mangler);
+
+        fprintf(fp, "\t\tcmp\t\tr12,\tr10\n");
+        fprintf(fp, "\t\tje\t\tpow_end_%d\n\n", mangler);
+
+        fprintf(fp, "\t\tinc\t\tr12\n");
+        fprintf(fp, "\t\timul\tr11\n\n");
+
+        fprintf(fp, "\t\tjmp\t\tpow_loop_%d\n\n", mangler);
+
+        fprintf(fp, "\tpow_end_%d:\n\n", mangler);
+
+        fprintf(fp, "\t\tmov\tr11,\trax\n");
+        fprintf(fp, "\t\tpush\tr11\n\n");
+
+        mangler++;
         break;
 
     case MOD_EXPR:
