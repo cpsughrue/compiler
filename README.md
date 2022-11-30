@@ -7,6 +7,7 @@ To build compiler and compile a simple math problem. Add math problem to `progra
 ```bash
 ./build.sh
 ```
+`build.sh` in addtion to handeling the assembly output files also compiles the compiler with gcc. This helps with debugging and is temporary.
 
 ## Supported Operators
 - `+`  <- addition
