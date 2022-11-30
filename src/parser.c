@@ -58,7 +58,7 @@ void print_expr(EXPR *expr)
     return;
 }
 
-EXPR *create_expr(EXPR_T type, EXPR *left, EXPR *right, char *lexeme)
+EXPR *create_expr(EXPR_TYPE type, EXPR *left, EXPR *right, char *lexeme)
 {
     EXPR *expr = (EXPR *)malloc(sizeof(EXPR));
 
@@ -88,7 +88,7 @@ EXPR *parse_addition()
     {
         char operator[2];
         strcpy(operator, data.curr.lexeme);
-        EXPR_T expr_t = data.curr.type == PLUS ? ADD_EXPR : SUB_EXPR;
+        EXPR_TYPE expr_t = data.curr.type == PLUS ? ADD_EXPR : SUB_EXPR;
 
         consume();
         EXPR *right = parse_multipication();
@@ -107,7 +107,7 @@ EXPR *parse_multipication()
         char operator[2];
         strcpy(operator, data.curr.lexeme);
 
-        EXPR_T expr_t;
+        EXPR_TYPE expr_t;
         switch (data.curr.type)
         {
         case STAR:

@@ -28,7 +28,7 @@ _start:
     jmp  print    ; else (positive or 0) print integer
 
     negative:
-        imul rax, -1
+        neg  rax
         push rax
         call _print_minus
         pop  rax
