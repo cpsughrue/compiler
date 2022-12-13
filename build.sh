@@ -1,11 +1,13 @@
+# exit script if any simple command returns a non-zero exit code
+set -e
+
 cd src
 
 gcc -I../include main.c scanner.c parser.c utils.c code_gen.c -o compiler
 
-./compiler ../program.txt
+./compiler ../program.txt $1
 
 rm ./compiler
 
-cd ../asm
 echo "ASSEMBLY OUTPUT"
-./build_asm.sh
+cd ../asm && ./build_asm.sh

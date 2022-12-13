@@ -14,11 +14,7 @@ void print_token(TOKEN token)
             "INTEGER",                                            // literals
             "PROGRAM", "END_OF_FILE"                              // others
         };
-    printf("%-11s: [%s] <line: %d, column: %d>\n",
-           TOKEN_T_CHAR[token.type],
-           token.lexeme,
-           token.line,
-           token.column);
+    printf("%-11s: [%s] <line: %d, column: %d>\n", TOKEN_T_CHAR[token.type], token.lexeme, token.line, token.column);
 }
 
 TOKEN create_token(char *lexeme, int line, int column, TOKEN_T type)
@@ -85,7 +81,7 @@ TOKEN scan(FILE *fp)
             column = 0;
             break;
 
-        // multi-character length tokens
+        // multi-digit number
         default:
             if (is_numeric(c))
             {
@@ -106,5 +102,6 @@ TOKEN scan(FILE *fp)
             break;
         }
     }
+    column++;
     return create_token("EOF", line, column, END_OF_FILE);
 }
