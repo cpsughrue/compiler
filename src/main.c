@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    // genrate AST
+    // generate AST
     EXPR *ast = parse(fp);
 
     // generate 64bit x86-64 Intel Syntax assembly

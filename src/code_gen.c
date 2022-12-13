@@ -25,9 +25,8 @@ void generate_code(EXPR *expr, FILE *fp)
     generate_code(expr->right, fp);
 
     /*
-    In some cases labels are created in the assemble.
-    To differentiate lables with the same funtionality
-    append an int at the end.
+    In some cases labels are created in the assembly.
+    To differentiate lables append an int at the end.
     */
     static int mangler = 0;
 
@@ -99,12 +98,12 @@ void generate_code(EXPR *expr, FILE *fp)
         break;
 
     case MOD_EXPR:
+        LOG_EXPR(expr);
         pop(fp);
         fprintf(fp, "\tmov\t\trax,\tr11\n");
         fprintf(fp, "\tidiv\tr10\n");
         fprintf(fp, "\tmov\t\tr11,\trdx\n");
         fprintf(fp, "\tpush\tr11\n");
-        LOG_EXPR(expr);
         break;
 
     case PRIMARY:
@@ -116,13 +115,11 @@ void generate_code(EXPR *expr, FILE *fp)
         LOG_EXPR(expr);
         break;
     }
-
     return;
 }
 
 void code_gen(EXPR *expr)
 {
-
     FILE *fp = fopen("../asm/program.asm", "w");
 
     fprintf(fp, "\n");
