@@ -25,8 +25,9 @@ Current limitations all of which will be addressed
     - NOTE: output can print negative numbers
 - No support for floating point numbers in input or output
     - `2.5 + 3` is an invalid expression
+    - `5 / 2` will evaluate to 2 instead of 2.5  
 - No support for negative exponents
-    - `4 ^ (2 - 6)` is an invalid expression because `2 - 6` evaluates to a negative number and is used as an exponent
+    - `4 ^ (2 - 6)` is an invalid expression
 
 ## Example Valid Math Expressions
 - `3 + 2`
