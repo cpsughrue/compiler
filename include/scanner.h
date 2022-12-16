@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#define MAX_LEXEME_LEN 30
+typedef char LEXEME_T[32];
 
 typedef enum
 {
@@ -25,19 +25,20 @@ typedef enum
     // other
     PROGRAM,
     END_OF_FILE
+
 } TOKEN_T;
 
 typedef struct
 {
     TOKEN_T type;
-    char lexeme[MAX_LEXEME_LEN]; // raw substrings of source code.
+    LEXEME_T lexeme; // raw substrings of source code.
     int line;
     int column;
 } TOKEN;
 
 TOKEN scan(FILE *fp);
 
-TOKEN create_token(char *lexeme, int line, int column, TOKEN_T type);
+TOKEN create_token(LEXEME_T lexeme, int line, int column, TOKEN_T type);
 
 void print_token(TOKEN token);
 

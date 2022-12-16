@@ -13,22 +13,25 @@ typedef enum
     MOD_EXPR,
     PRIMARY,
     UNKNOWN
-} EXPR_TYPE;
 
+} EXPR_E;
+
+// struct is self-referential and must specify a tag
 typedef struct expr
 {
-    EXPR_TYPE type;
+    EXPR_E type;
+    LEXEME_T lexeme;
 
     struct expr *right;
     struct expr *left;
 
-    char lexeme[30];
 } EXPR;
 
 typedef struct
 {
     FILE *fp;
     TOKEN curr;
+
 } PARSER;
 
 void free_ast(EXPR *expr);
@@ -37,9 +40,9 @@ void print_ast(EXPR *expr);
 
 void print_expr(EXPR *expr);
 
-EXPR *create_expr(EXPR_TYPE type, EXPR *left, EXPR *right, char *lexeme);
-
 void consume();
+
+EXPR *create_expr(EXPR_E type, EXPR *left, EXPR *right, LEXEME_T lexeme);
 
 EXPR *parse_expresion();
 

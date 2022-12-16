@@ -58,7 +58,7 @@ void print_expr(EXPR *expr)
     return;
 }
 
-EXPR *create_expr(EXPR_TYPE type, EXPR *left, EXPR *right, char *lexeme)
+EXPR *create_expr(EXPR_E type, EXPR *left, EXPR *right, LEXEME_T lexeme)
 {
     EXPR *expr = (EXPR *)malloc(sizeof(EXPR));
 
@@ -88,11 +88,11 @@ EXPR *parse_addition()
     {
         char operator[2];
         strcpy(operator, data.curr.lexeme);
-        EXPR_TYPE expr_t = data.curr.type == PLUS ? ADD_EXPR : SUB_EXPR;
+        EXPR_E type = data.curr.type == PLUS ? ADD_EXPR : SUB_EXPR;
 
         consume();
         EXPR *right = parse_multipication();
-        expr = create_expr(expr_t, expr, right, operator);
+        expr = create_expr(type, expr, right, operator);
     }
     return expr;
 }
@@ -101,23 +101,22 @@ EXPR *parse_multipication()
 {
     EXPR *expr = parse_exponent();
 
-    while (data.curr.type == STAR || data.curr.type == SLASH ||
-           data.curr.type == PERCENT)
+    while (data.curr.type == STAR || data.curr.type == SLASH || data.curr.type == PERCENT)
     {
         char operator[2];
         strcpy(operator, data.curr.lexeme);
 
-        EXPR_TYPE expr_t;
+        EXPR_E type;
         switch (data.curr.type)
         {
         case STAR:
-            expr_t = MUL_EXPR;
+            type = MUL_EXPR;
             break;
         case SLASH:
-            expr_t = DIV_EXPR;
+            type = DIV_EXPR;
             break;
         case PERCENT:
-            expr_t = MOD_EXPR;
+            type = MOD_EXPR;
             break;
         default:
             break;
@@ -125,7 +124,7 @@ EXPR *parse_multipication()
 
         consume();
         EXPR *right = parse_exponent();
-        expr = create_expr(expr_t, expr, right, operator);
+        expr = create_expr(type, expr, right, operator);
     }
     return expr;
 }

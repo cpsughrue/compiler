@@ -74,8 +74,6 @@ int main(int argc, char *argv[])
     }
     else
     {
-
-        printf("compile");
         // generate AST
         EXPR *ast = parse(fp);
 

@@ -17,7 +17,7 @@ void print_token(TOKEN token)
     printf("%-11s: [%s] <line: %d, column: %d>\n", TOKEN_T_CHAR[token.type], token.lexeme, token.line, token.column);
 }
 
-TOKEN create_token(char *lexeme, int line, int column, TOKEN_T type)
+TOKEN create_token(LEXEME_T lexeme, int line, int column, TOKEN_T type)
 {
     TOKEN new_token;
 
@@ -38,7 +38,7 @@ TOKEN scan(FILE *fp)
     while ((c = fgetc(fp)) != EOF)
     {
         // {c, \0, ..., \0}
-        char lexeme[30] = {c, '\0'};
+        LEXEME_T lexeme = {c, '\0'};
         column++;
 
         switch (c)

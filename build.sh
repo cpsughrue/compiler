@@ -9,5 +9,7 @@ gcc -I../include main.c scanner.c parser.c utils.c code_gen.c -o compiler
 
 rm ./compiler
 
-echo "ASSEMBLY OUTPUT"
-cd ../asm && ./build_asm.sh
+if [[ $1 != "-s" ]]; then
+    echo "ASSEMBLY OUTPUT"
+    cd ../asm && ./build_asm.sh
+fi
