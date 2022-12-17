@@ -5,23 +5,7 @@
 #include "scanner.h"
 #include "utils.h"
 
-void print_token(TOKEN token)
-{
-    const char *TOKEN_T_CHAR[] =
-        {
-            "RIGHT_PAREN", "LEFT_PAREN",                          // grouping
-            "MINUS", "PLUS", "SLASH", "STAR", "CARET", "PERCENT", // mathematical operations
-            "INTEGER",                                            // literals
-            "PROGRAM", "END_OF_FILE"                              // others
-        };
-    printf("%-11s: [%s] <line: %d, column: %d>\n",
-           TOKEN_T_CHAR[token.type],
-           token.lexeme,
-           token.line,
-           token.column);
-}
-
-TOKEN create_token(char *lexeme, int line, int column, TOKEN_T type)
+TOKEN create_token(LEXEME_T lexeme, int line, int column, TOKEN_E type)
 {
     TOKEN new_token;
 
@@ -42,7 +26,7 @@ TOKEN scan(FILE *fp)
     while ((c = fgetc(fp)) != EOF)
     {
         // {c, \0, ..., \0}
-        char lexeme[30] = {c, '\0'};
+        LEXEME_T lexeme = {c, '\0'};
         column++;
 
         switch (c)
@@ -85,7 +69,7 @@ TOKEN scan(FILE *fp)
             column = 0;
             break;
 
-        // multi-character length tokens
+        // multi-digit number
         default:
             if (is_numeric(c))
             {
@@ -106,5 +90,6 @@ TOKEN scan(FILE *fp)
             break;
         }
     }
+    column++;
     return create_token("EOF", line, column, END_OF_FILE);
 }

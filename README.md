@@ -1,4 +1,4 @@
-This repository was created as an exercise to learn about compilers and is a BIG work in progress. Right now only simple math expressions can be compiled and executed. 
+This repository was created as an exercise to learn about compilers and is a work in progress. Right now only simple math expressions can be compiled and executed.
 
 ## Build
 
@@ -7,7 +7,10 @@ To build compiler and compile a simple math problem. Add math problem to `progra
 ```bash
 ./build.sh
 ```
-`build.sh` in addtion to handling the assembly output files also compiles the compiler. This helps with debugging and is temporary.
+`build.sh` in addtion to generating the assembly output files and calling the assembly build script also compiles the compiler. This helps with debugging and is temporary. Currently only one flag is supported. When the `-s` flag is specified the compiler will scan the input file, print each token in a human readable format, and exit. The flag `-s` was implemented to simplify the development of new tokens. 
+```bash
+./build.sh -s
+```
 
 ## Supported Operators
 - `+`  <- addition

@@ -1,9 +1,7 @@
 #include <stdio.h>
 
 #include "parser.h"
-
-#define LOG_EXPR(x) print_expr(x)
-// #define LOG_EXPR
+#include "utils.h"
 
 void pop(FILE *fp)
 {
@@ -34,21 +32,21 @@ void generate_code(EXPR *expr, FILE *fp)
     switch (expr->type)
     {
     case ADD_EXPR:
-        LOG_EXPR(expr);
+        LOG_CODE_GEN(expr);
         pop(fp);
         fprintf(fp, "\tadd\t\tr11,\tr10\n");
         fprintf(fp, "\tpush\tr11\n");
         break;
 
     case SUB_EXPR:
-        LOG_EXPR(expr);
+        LOG_CODE_GEN(expr);
         pop(fp);
         fprintf(fp, "\tsub\t\tr11,\tr10\n");
         fprintf(fp, "\tpush\tr11\n");
         break;
 
     case MUL_EXPR:
-        LOG_EXPR(expr);
+        LOG_CODE_GEN(expr);
         pop(fp);
         fprintf(fp, "\tmov\t\trax,\tr11\n");
         fprintf(fp, "\timul\tr10\n");
@@ -57,7 +55,7 @@ void generate_code(EXPR *expr, FILE *fp)
         break;
 
     case DIV_EXPR:
-        LOG_EXPR(expr);
+        LOG_CODE_GEN(expr);
         pop(fp);
         fprintf(fp, "\tmov\t\trax,\tr11\n");
         fprintf(fp, "\tidiv\tr10\n");
@@ -66,7 +64,7 @@ void generate_code(EXPR *expr, FILE *fp)
         break;
 
     case POW_EXPR:
-        LOG_EXPR(expr);
+        LOG_CODE_GEN(expr);
         pop(fp);
         fprintf(fp, "\tcmp\t\tr10,\t0\n");
         fprintf(fp, "\tjne\t\tpow_%d\n\n", mangler);
@@ -98,7 +96,7 @@ void generate_code(EXPR *expr, FILE *fp)
         break;
 
     case MOD_EXPR:
-        LOG_EXPR(expr);
+        LOG_CODE_GEN(expr);
         pop(fp);
         fprintf(fp, "\tmov\t\trax,\tr11\n");
         fprintf(fp, "\tidiv\tr10\n");
@@ -107,12 +105,12 @@ void generate_code(EXPR *expr, FILE *fp)
         break;
 
     case PRIMARY:
-        LOG_EXPR(expr);
+        LOG_CODE_GEN(expr);
         fprintf(fp, "\tpush\t%s\n", expr->lexeme);
         break;
 
     default:
-        LOG_EXPR(expr);
+        LOG_CODE_GEN(expr);
         break;
     }
     return;
