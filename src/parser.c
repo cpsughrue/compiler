@@ -4,6 +4,7 @@
 
 #include "scanner.h"
 #include "parser.h"
+#include "utils.h"
 
 void free_ast(EXPR *expr)
 {
@@ -18,41 +19,6 @@ void free_ast(EXPR *expr)
     free_ast(expr->right);
     free(expr);
 
-    return;
-}
-
-void print_ast(EXPR *expr)
-{
-    // inorder traversal of binary tree
-
-    if (expr == NULL)
-    {
-        return;
-    }
-
-    if (expr->type != PRIMARY)
-    {
-        printf("(");
-    }
-
-    print_ast(expr->left);
-    printf("%s", expr->lexeme);
-    print_ast(expr->right);
-
-    if (expr->type != PRIMARY)
-    {
-        printf(")");
-    }
-
-    return;
-}
-
-void print_expr(EXPR *expr)
-{
-    const char *OPERATOR_T_CHAR[] = {"ADD_EXPR", "SUB_EXPR", "MUL_EXPR",
-                                     "DIV_EXPR", "POW_EXPR", "MOD_EXPR",
-                                     "PRIMARY", "UNKNOWN"};
-    printf("%s -> %s\n", OPERATOR_T_CHAR[expr->type], expr->lexeme);
     return;
 }
 
@@ -71,7 +37,6 @@ EXPR *create_expr(EXPR_E type, EXPR *left, EXPR *right, LEXEME_T lexeme)
 
 void consume(PARSER *data)
 {
-    print_token(data->curr);
     data->curr = scan(data->fp);
     return;
 }
