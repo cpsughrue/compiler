@@ -27,6 +27,7 @@ typedef struct
     LEXEME_T lexeme; // raw substrings of source code.
     int line;
     int column;
+
 } TOKEN;
 
 TOKEN scan(FILE *fp);

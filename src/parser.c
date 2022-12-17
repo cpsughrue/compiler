@@ -140,7 +140,9 @@ EXPR *parse(FILE *fp)
 
     PARSER data;
     data.fp = fp;
-    data.curr = scan(fp);
+
+    // call consume instead of scan to log info
+    consume(&data);
 
     EXPR *expr = parse_expresion(&data);
 
