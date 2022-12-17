@@ -1,4 +1,4 @@
-This repository was created as an exercise to learn about compilers and is a BIG work in progress. Right now only simple math expressions can be compiled and executed. 
+This repository was created as an exercise to learn about compilers and is a work in progress. Right now only simple math expressions can be compiled and executed.
 
 ## Build
 

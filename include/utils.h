@@ -3,6 +3,8 @@
 
 #include "parser.h"
 
+#ifdef LOG
+
 #define LOG_SCAN(x)          \
     printf("scaned token "); \
     print_token(x);
@@ -15,9 +17,13 @@
     printf("created expr "); \
     print_expr(x);
 
-// #define LOG_SCAN(x)
-// #define LOG_CODE_GEN(x)
-// #define LOG_EXPR(x)
+#else
+
+#define LOG_SCAN(x)
+#define LOG_CODE_GEN(x)
+#define LOG_EXPR(x)
+
+#endif
 
 short is_numeric(char c);
 
