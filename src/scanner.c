@@ -17,7 +17,7 @@ void print_token(TOKEN token)
     printf("%-11s: [%s] <line: %d, column: %d>\n", TOKEN_T_CHAR[token.type], token.lexeme, token.line, token.column);
 }
 
-TOKEN create_token(LEXEME_T lexeme, int line, int column, TOKEN_T type)
+TOKEN create_token(LEXEME_T lexeme, int line, int column, TOKEN_E type)
 {
     TOKEN new_token;
 

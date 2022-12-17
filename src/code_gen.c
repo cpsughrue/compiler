@@ -2,8 +2,8 @@
 
 #include "parser.h"
 
-#define LOG_EXPR(x) print_expr(x)
-// #define LOG_EXPR
+// #define LOG_EXPR(x) print_expr(x)
+#define LOG_EXPR(x)
 
 void pop(FILE *fp)
 {

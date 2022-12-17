@@ -40,20 +40,20 @@ void print_ast(EXPR *expr);
 
 void print_expr(EXPR *expr);
 
-void consume();
+void consume(PARSER *data);
 
-EXPR *create_expr(EXPR_E type, EXPR *left, EXPR *right, LEXEME_T lexeme);
+EXPR *parse_expresion(PARSER *data);
 
-EXPR *parse_expresion();
+EXPR *parse_addition(PARSER *data);
 
-EXPR *parse_addition();
+EXPR *parse_multipication(PARSER *data);
 
-EXPR *parse_multipication();
+EXPR *parse_exponent(PARSER *data);
 
-EXPR *parse_exponent();
-
-EXPR *parse_primary();
+EXPR *parse_primary(PARSER *data);
 
 EXPR *parse(FILE *fp);
+
+EXPR *create_expr(EXPR_E type, EXPR *left, EXPR *right, LEXEME_T lexeme);
 
 #endif
