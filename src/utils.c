@@ -56,7 +56,7 @@ const char *getEXPR_E(EXPR_E expr_type)
     case UNKNOWN:
         return "UNKOWN";
     default:
-        return "SOMETHING IS WRONG";
+        return "SOMETHING IS WRONG: tried to print expression type that doesn't exist";
     }
 }
 
@@ -87,7 +87,7 @@ const char *getTOKEN_E(TOKEN_E token_type)
     case END_OF_FILE:
         return "END_OF_FILE";
     default:
-        return "SOMETHING IS WRONG";
+        return "SOMETHING IS WRONG: tried to print token type that doesn't exist";
     }
 }
 
