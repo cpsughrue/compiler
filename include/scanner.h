@@ -7,22 +7,15 @@ typedef char LEXEME_T[32];
 
 typedef enum
 {
-    // grouping
     RIGHT_PAREN,
     LEFT_PAREN,
-
-    // mathematical operations
     MINUS,
     PLUS,
     SLASH,
     STAR,
     CARET,
     PERCENT,
-
-    // literals
     INTEGER,
-
-    // other
     PROGRAM,
     END_OF_FILE
 

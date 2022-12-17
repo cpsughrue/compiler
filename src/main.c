@@ -3,9 +3,10 @@
 #include <string.h>
 #include <stdbool.h>
 
-#include "parser.h"
 #include "code_gen.h"
 #include "scanner.h"
+#include "parser.h"
+#include "utils.h"
 
 int main(int argc, char *argv[])
 {
