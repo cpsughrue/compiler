@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
         while (token.type != END_OF_FILE)
         {
             token = scan(fp);
-            LOG_SCAN(token);
+            LOG_TOKEN("scaned token ", token);
         }
     }
     else

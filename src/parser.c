@@ -31,14 +31,14 @@ EXPR *create_expr(EXPR_E type, EXPR *left, EXPR *right, LEXEME_T lexeme)
     expr->left = left;
     strcpy(expr->lexeme, lexeme);
 
-    LOG_EXPR(expr);
+    LOG_EXPR("creating expr ", expr);
     return expr;
 }
 
 void consume(PARSER *data)
 {
     data->curr = scan(data->fp);
-    LOG_SCAN(data->curr);
+    LOG_TOKEN("scaned token ", data->curr);
     return;
 }
 

@@ -6,10 +6,10 @@ for arg in $@; do
     case $arg in
         -s | --scan-only)   # when -s is prvided compiler will only scan
         scan="-s"    
-        log="-D LOG"        # there will be no output if logs are diabbles during a scan only
+        log="-D VERBOSE"        # there will be no output if logs are diabbles during a scan only
         ;;
         -v | --verbose)
-        log="-D LOG"        # macros are defined in utils.h and are enabled when LOG is defined
+        log="-D VERBOSE"        # macros are defined in utils.h and are enabled when LOG is defined
         ;;
         *)
         echo "unknown argument $arg"

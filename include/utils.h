@@ -3,25 +3,25 @@
 
 #include "parser.h"
 
-#ifdef LOG
+#ifdef VERBOSE
 
-#define LOG_SCAN(x)          \
-    printf("scaned token "); \
-    print_token(x);
+#define LOG_TOKEN(msg, TOKEN)      \
+    printf(msg); \
+    print_token(TOKEN);
 
-#define LOG_CODE_GEN(x)          \
-    printf("generaed asm for "); \
-    print_expr(x);
+#define LOG_EXPR(msg, EXPR) \
+    printf(msg);            \
+    print_expr(EXPR);
 
-#define LOG_EXPR(x)          \
-    printf("created expr "); \
-    print_expr(x);
+#define LOG(...)                             \
+    printf("%s [%d]: ", __FILE__, __LINE__); \
+    printf(__VA_ARGS__);
 
 #else
 
-#define LOG_SCAN(x)
-#define LOG_CODE_GEN(x)
-#define LOG_EXPR(x)
+#define LOG_TOKEN(msg, x)
+#define LOG_EXPR(msg, x)
+#define LOG(...)
 
 #endif
 
