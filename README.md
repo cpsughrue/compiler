@@ -9,7 +9,8 @@ To build compiler and compile a simple math problem. Add math problem to `progra
 
 # Flags
 #
-#   -S, --scan-only: the compiler will scan the input file, print each token in a human readable format, and exit
+#   -S, --scan-only: the compiler will scan the input file, print each token in 
+#                    a human readable format, and exit
 #
 #   -V, --verbose: the combiler will print log statements to the consol
 #
