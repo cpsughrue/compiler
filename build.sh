@@ -4,11 +4,11 @@ set -eo pipefail
 # process comand line arguments
 for arg in $@; do
     case $arg in
-        -s | --scan-only)   # when -s is prvided compiler will only scan
+        -S | --scan-only)   # when -s is prvided compiler will only scan
         scan="-s"    
         log="-D VERBOSE"        # there will be no output if logs are diabbles during a scan only
         ;;
-        -v | --verbose)
+        -V | --verbose)
         log="-D VERBOSE"        # macros are defined in utils.h and are enabled when LOG is defined
         ;;
         *)

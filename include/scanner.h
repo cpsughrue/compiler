@@ -33,7 +33,7 @@ typedef struct
 TOKEN scan(FILE *fp);
 
 TOKEN create_token(LEXEME_T lexeme, int line, int column, TOKEN_E type);
-
+void int_token(FILE *fp, LEXEME_T lexeme, char c, short index);
 void print_token(TOKEN token);
 
 #endif

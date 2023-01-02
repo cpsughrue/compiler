@@ -17,6 +17,16 @@ TOKEN create_token(LEXEME_T lexeme, int line, int column, TOKEN_E type)
     return new_token;
 }
 
+void int_token(FILE *fp, LEXEME_T lexeme, char c, short index)
+{
+    while (is_numeric(c))
+    {
+        lexeme[index++] = c;
+        c = fgetc(fp);
+    }
+    ungetc(c, fp); // move stream back to last digit
+}
+
 TOKEN scan(FILE *fp)
 {
     static int line = 1;
@@ -42,6 +52,14 @@ TOKEN scan(FILE *fp)
             return create_token(lexeme, line, column, PLUS);
             break;
         case '-':
+            c = fgetc(fp);
+            // if next chacter is numeric make negative integer token
+            if (is_numeric(c))
+            {
+                int_token(fp, lexeme, c, 1);
+                return create_token(lexeme, line, column, INTEGER);
+            }
+            ungetc(c, fp);
             return create_token(lexeme, line, column, MINUS);
             break;
         case '/':
@@ -73,13 +91,7 @@ TOKEN scan(FILE *fp)
         default:
             if (is_numeric(c))
             {
-                short digit = 0;
-                while (is_numeric(c))
-                {
-                    lexeme[digit++] = c;
-                    c = fgetc(fp);
-                }
-                ungetc(c, fp); // move stream back to last digit
+                int_token(fp, lexeme, c, 0);
                 return create_token(lexeme, line, column, INTEGER);
             }
             else
