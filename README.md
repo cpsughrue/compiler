@@ -2,20 +2,20 @@ This repository was created as an exercise to learn about compilers and is a wor
 
 ## Build
 
-To build compiler and compile a simple math problem. Add math problem to `program.txt` then run the build script.
-
+To build the math compiler and compile a simple math problem. Add the math problem to `program.txt` then run the build script: `build.sh`. 
 ```bash
 ./build.sh
 
 # Flags
 #
-#   -S, --scan-only: the compiler will scan the input file, print each token in 
-#                    a human readable format, and exit
+#   -s, --scan-only: the compiler will scan the input file, print each token in 
+#                    a human readable format, and exit. assembly is not generated
+#                    and ./build_asm.sh will not be executed
 #
-#   -V, --verbose: the combiler will print log statements to the consol
+#   -v, --verbose: the combiler will print log statements to the consol
 #
 ```
-`build.sh` in addtion to generating the assembly output files and calling the assembly build script also compiles the compiler. Compiling the compiler improves iteration speed and helps with debugging.
+The build script has three parts. The first part handles flags/arguments passed to `build.sh` by the user. The second part compiles the compiler with gcc and executes the binary with the path to `program.txt` as the first argument. The third and last part calls `asm/build_asm.sh` when appropriate. The script `build_asm.sh` uses nasm and ld to assemble and link the generated and prewritten x86_64 assembly. Generated asembly can be found in `asm/program.asm`.
 
 ## Supported Operators
 - `+`  <- addition
@@ -25,13 +25,19 @@ To build compiler and compile a simple math problem. Add math problem to `progra
 - `^`  <- power
 - `%`  <- modulo
 
-## Limitations
+## Known Limitations
 
 - No support for floating point numbers in input or output
     - `2.5 + 3` is an invalid expression
     - `5 / 2` will evaluate to 2 instead of 2.5
-- Negative exponents evauate to 0
+- Negative exponents evauate to 0 (related to the lack of float support)
     - `4 ^ -3 = 0`
+- Issue scanning dash with no space
+    - `4-3` is tokenized as `[4], [-3]` instead of `[4], [-], [3]`
+- No syntax errors
+    - incorrect syntax results in a segmentation fault
+- Limited token errors
+    - compiler will only list first invalid token then exit
 
 ## Example Valid Math Expressions
 - `3 + -2`

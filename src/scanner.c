@@ -96,8 +96,8 @@ TOKEN scan(FILE *fp)
             }
             else
             {
-                printf("invalid token: %c", c);
-                exit(0);
+                printf("invalid token: %c\n", c);
+                exit(1);
             }
             break;
         }
