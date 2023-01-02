@@ -66,11 +66,21 @@ void generate_code(EXPR *expr, FILE *fp)
     case POW_EXPR:
         LOG_EXPR("generating asm for", expr);
         pop(fp);
+        fprintf(fp, "\t; if the exponent is zero\n");
         fprintf(fp, "\tcmp\t\tr10,\t0\n");
-        fprintf(fp, "\tjne\t\tpow_%d\n\n", mangler);
+        fprintf(fp, "\tje\t\tzero_exponent_%d\n\n", mangler);
 
-        fprintf(fp, "\tmov\t\trax,\t1\n");
-        fprintf(fp, "\tjmp\t\tpow_end_%d\n\n", mangler);
+        fprintf(fp, "\t; if exponent is greater than zero\n");
+        fprintf(fp, "\tcmp\t\tr10,\t0\n");
+        fprintf(fp, "\tjg\t\tpow_%d\n\n", mangler);
+
+        fprintf(fp, "\tnegative_exponent_%d:\n", mangler);
+        fprintf(fp, "\t\tmov\t\trax, 0\n");
+        fprintf(fp, "\t\tjmp\t\tpow_end_%d\n\n", mangler);
+
+        fprintf(fp, "\tzero_exponent_%d:\n", mangler);
+        fprintf(fp, "\t\tmov\t\trax,\t1\n");
+        fprintf(fp, "\t\tjmp\t\tpow_end_%d\n\n", mangler);
 
         fprintf(fp, "\tpow_%d:\n\n", mangler);
 

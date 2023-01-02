@@ -53,6 +53,7 @@ TOKEN scan(FILE *fp)
             break;
         case '-':
             c = fgetc(fp);
+            // if next chacter is numeric make negative integer token
             if (is_numeric(c))
             {
                 int_token(fp, lexeme, c, 1);
