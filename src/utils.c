@@ -103,7 +103,11 @@ void print_token(TOKEN token)
     return;
 }
 
+<<<<<<< HEAD
 void print_red()
+=======
+void red()
+>>>>>>> c1d546e6577d62073eeffa9b7f1f14406b30c97e
 {
     printf("\033[0;31m");
 }
