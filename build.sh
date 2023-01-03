@@ -23,10 +23,10 @@ gcc -I../include main.c scanner.c parser.c utils.c code_gen.c -o compiler $log
 
 # execute generated assembly if compiler successfully generated assembly
 # compiler does not generate assembly if -s flag is set
-if [[ $scan != "-s" && $? == 0]]; then
+if [[ $scan != "-s" && $? == 0 ]]; then
     echo -n "ASSEMBLY OUTPUT:  "
     cd ../asm && ./build_asm.sh
 fi
 
 # clean
-rm ./compiler
+rm ../src/compiler

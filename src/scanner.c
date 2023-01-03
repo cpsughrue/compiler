@@ -29,8 +29,12 @@ void int_token(FILE *fp, LEXEME_T lexeme, char c, short index)
 
 TOKEN scan(FILE *fp)
 {
+    // track position of first character in token
     static int line = 1;
     static int column = 0;
+
+    // keep track of previous token
+    static TOKEN_E prev;
 
     char c = '~';
     while ((c = fgetc(fp)) != EOF)
@@ -43,35 +47,44 @@ TOKEN scan(FILE *fp)
         {
         // single character tokens
         case '(':
+            prev = LEFT_PAREN;
             return create_token(lexeme, line, column, LEFT_PAREN);
             break;
         case ')':
+            prev = RIGHT_PAREN;
             return create_token(lexeme, line, column, RIGHT_PAREN);
             break;
         case '+':
+            prev = PLUS;
             return create_token(lexeme, line, column, PLUS);
             break;
         case '-':
             c = fgetc(fp);
             // if next chacter is numeric make negative integer token
-            if (is_numeric(c))
+            if (is_numeric(c) && prev != INTEGER)
             {
+                prev = INTEGER;
                 int_token(fp, lexeme, c, 1);
                 return create_token(lexeme, line, column, INTEGER);
             }
             ungetc(c, fp);
+            prev = MINUS;
             return create_token(lexeme, line, column, MINUS);
             break;
         case '/':
+            prev = SLASH;
             return create_token(lexeme, line, column, SLASH);
             break;
         case '*':
+            prev = STAR;
             return create_token(lexeme, line, column, STAR);
             break;
         case '^':
+            prev = CARET;
             return create_token(lexeme, line, column, CARET);
             break;
         case '%':
+            prev = PERCENT;
             return create_token(lexeme, line, column, PERCENT);
             break;
 
@@ -91,6 +104,7 @@ TOKEN scan(FILE *fp)
         default:
             if (is_numeric(c))
             {
+                prev = INTEGER;
                 int_token(fp, lexeme, c, 0);
                 return create_token(lexeme, line, column, INTEGER);
             }

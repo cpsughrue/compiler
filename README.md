@@ -32,12 +32,9 @@ The build script has three parts. The first part handles flags/arguments passed 
     - `5 / 2` will evaluate to 2 instead of 2.5
 - Negative exponents evauate to 0 (related to the lack of float support)
     - `4 ^ -3 = 0`
-- Issue scanning dash with no space
-    - `4-3` is tokenized as `[4], [-3]` instead of `[4], [-], [3]`
-- No syntax errors
+- Limited error detection
     - incorrect syntax results in a segmentation fault
-- Limited token errors
-    - compiler will only list first invalid token then exit
+    - if there are multiple invalid tokens compiler will only list first one then exit
 
 ## Example Valid Math Expressions
 - `3 + -2`
