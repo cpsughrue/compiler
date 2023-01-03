@@ -115,7 +115,7 @@ TOKEN scan(FILE *fp)
             }
             else
             {
-                printf("invalid token: %c\n", c);
+                printf("ERROR: invalid token: %c\n", c);
                 exit(1);
             }
             break;

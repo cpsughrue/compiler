@@ -33,8 +33,7 @@ The build script has three parts. The first part handles flags/arguments passed 
 - Negative exponents evauate to 0 (related to the lack of floating point support)
     - `4 ^ -3 = 0`
 - Limited error detection
-    - incorrect syntax results in a segmentation fault
-    - if there are multiple invalid tokens compiler will only list first one then exit
+    - if there are multiple invalid tokens or multiple syntax errors compiler will only output the first one then exit
 
 ## Example Valid Math Expressions
 - `3 + -2`
