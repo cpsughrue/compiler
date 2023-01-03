@@ -124,6 +124,9 @@ EXPR *parse_primary(PARSER *data)
         consume(data);
         return expr;
     }
+    printf("ERROR: invalid syntax near: ");
+    print_token(data->curr);
+    exit(1);
 }
 
 EXPR *parse(FILE *fp)

@@ -36,8 +36,6 @@ typedef struct
 
 void free_ast(EXPR *expr);
 
-void print_ast(EXPR *expr);
-
 void print_expr(EXPR *expr);
 
 void consume(PARSER *data);
