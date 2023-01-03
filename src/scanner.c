@@ -5,6 +5,9 @@
 #include "scanner.h"
 #include "utils.h"
 
+#define POSITIVE_INT 0
+#define NEGATIVE_INT 1
+
 TOKEN create_token(LEXEME_T lexeme, int line, int column, TOKEN_E type)
 {
     TOKEN new_token;
@@ -17,21 +20,24 @@ TOKEN create_token(LEXEME_T lexeme, int line, int column, TOKEN_E type)
     return new_token;
 }
 
-void int_token(FILE *fp, LEXEME_T lexeme, char c, short index)
+int int_token(FILE *fp, LEXEME_T lexeme, char c, int column, short index)
 {
     while (is_numeric(c))
     {
         lexeme[index++] = c;
         c = fgetc(fp);
+        column++;
     }
     ungetc(c, fp); // move stream back to last digit
+    column--;
+    return column;
 }
 
 TOKEN scan(FILE *fp)
 {
-    // track position of first character in token
+    // track position of last character in token
     static int line = 1;
-    static int column = 0;
+    static int column = 1;
 
     // keep track of previous token
     static TOKEN_E prev;
@@ -42,7 +48,6 @@ TOKEN scan(FILE *fp)
         // {c, \0, ..., \0}
         LEXEME_T lexeme = {c, '\0'};
         column++;
-
         switch (c)
         {
         // single character tokens
@@ -64,7 +69,7 @@ TOKEN scan(FILE *fp)
             if (is_numeric(c) && prev != INTEGER)
             {
                 prev = INTEGER;
-                int_token(fp, lexeme, c, 1);
+                column = int_token(fp, lexeme, c, column, NEGATIVE_INT);
                 return create_token(lexeme, line, column, INTEGER);
             }
             ungetc(c, fp);
@@ -105,7 +110,7 @@ TOKEN scan(FILE *fp)
             if (is_numeric(c))
             {
                 prev = INTEGER;
-                int_token(fp, lexeme, c, 0);
+                column = int_token(fp, lexeme, c, column, POSITIVE_INT);
                 return create_token(lexeme, line, column, INTEGER);
             }
             else

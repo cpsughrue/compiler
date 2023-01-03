@@ -30,7 +30,7 @@ The build script has three parts. The first part handles flags/arguments passed 
 - No support for floating point numbers in input or output
     - `2.5 + 3` is an invalid expression
     - `5 / 2` will evaluate to 2 instead of 2.5
-- Negative exponents evauate to 0 (related to the lack of float support)
+- Negative exponents evauate to 0 (related to the lack of floating point support)
     - `4 ^ -3 = 0`
 - Limited error detection
     - incorrect syntax results in a segmentation fault
@@ -42,6 +42,7 @@ The build script has three parts. The first part handles flags/arguments passed 
 - `6/3+2`
 - `4 ^ 2 - 6 ^ 2 + 3`
 - `(8 + 2) * 834`
+- `4-2`
 
 ## Dependencies
 In parenthesis are the versions currently being used on my local machine

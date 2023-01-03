@@ -25,15 +25,17 @@ typedef struct
 {
     TOKEN_E type;
     LEXEME_T lexeme; // raw substrings of source code.
-    int line;
-    int column;
+    int line;        // line of token
+    int column;      // last column of token
 
 } TOKEN;
 
 TOKEN scan(FILE *fp);
 
 TOKEN create_token(LEXEME_T lexeme, int line, int column, TOKEN_E type);
-void int_token(FILE *fp, LEXEME_T lexeme, char c, short index);
+
+int int_token(FILE *fp, LEXEME_T lexeme, char c, int column, short index);
+
 void print_token(TOKEN token);
 
 #endif
