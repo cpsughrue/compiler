@@ -102,3 +102,13 @@ void print_token(TOKEN token)
     printf("%-11s: [%s] <line: %d, column: %d>\n", getTOKEN_E(token.type), token.lexeme, token.line, token.column);
     return;
 }
+
+void print_red()
+{
+    printf("\033[0;31m");
+}
+
+void reset_color()
+{
+    printf("\033[0m");
+}

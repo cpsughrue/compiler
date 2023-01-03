@@ -5,8 +5,8 @@
 
 #ifdef VERBOSE
 
-#define LOG_TOKEN(msg, TOKEN)      \
-    printf(msg); \
+#define LOG_TOKEN(msg, TOKEN) \
+    printf(msg);              \
     print_token(TOKEN);
 
 #define LOG_EXPR(msg, EXPR) \
@@ -32,5 +32,9 @@ void print_ast(EXPR *expr);
 void print_expr(EXPR *expr);
 
 void print_token(TOKEN token);
+
+void print_red();
+
+void reset_color();
 
 #endif
