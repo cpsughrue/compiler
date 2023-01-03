@@ -124,10 +124,10 @@ EXPR *parse_primary(PARSER *data)
         consume(data);
         return expr;
     }
-    printf("\033[0;31m"); // print in red
+    print_red();
     printf("ERROR: invalid syntax near: ");
     print_token(data->curr);
-    printf("\033[0m"); // escape
+    reset_color();
     exit(1);
 }
 

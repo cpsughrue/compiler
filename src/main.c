@@ -32,7 +32,9 @@ int main(int argc, char *argv[])
                     FLAG_SCAN_ONLY = true;
                     break;
                 default:
-                    printf("\033[0;31mERROR: -%c is an invalid flag\n\033[0m", argv[i][j]);
+                    print_red();
+                    printf("ERROR: -%c is an invalid flag", argv[i][j]);
+                    reset_color();
                     INVALID_FLAG = true;
                     break;
                 }
@@ -53,14 +55,18 @@ int main(int argc, char *argv[])
     // if not ask for a file path to program
     if (file_index == 0)
     {
-        printf("\033[0;31mERROR: must provide a file path\n\033[0m");
+        print_red();
+        printf("ERROR: must provide a file path\n");
+        reset_color();
         return EXIT_FAILURE;
     }
 
     FILE *fp = fopen(argv[file_index], "r");
     if (fp == NULL)
     {
-        printf("\033[0;31mERROR: %s can't be opened\n\033[0m", argv[file_index]);
+        print_red();
+        printf("ERROR: %s can't be opened\n", argv[file_index]);
+        reset_color();
         return EXIT_FAILURE;
     }
 
