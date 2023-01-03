@@ -44,7 +44,7 @@ The build script has three parts. The first part handles flags/arguments passed 
 - `4-2`
 
 ## Dependencies
-In parenthesis are the versions currently being used on my local machine
+In parenthesis are the versions used during development
 - gcc (9.4.0)
 - nasm (2.14.02)
 - ld (2.34)
