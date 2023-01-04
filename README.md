@@ -1,4 +1,4 @@
-This repository was created as an exercise to learn about compilers and is a work in progress. Right now only simple integer math expressions can be compiled and executed.
+This repository was created as an exercise to learn about compilers and is a work in progress. The compiler compiles math expressions to x86_64 assembly - Intel Syntax. 
 
 ## Build
 
@@ -14,8 +14,16 @@ To build the math compiler and compile a simple math problem. Add the math probl
 #
 #   -v, --verbose: the combiler will print log statements to the consol
 #
+
+# Example
+cat program.txt
+4 ^ 2 - 6 ^ 2 + 3
+
+./build.sh
+(((4^2)-(6^2))+3)
+ASSEMBLY OUTPUT:  -17
 ```
-The build script has three parts. The first part handles flags/arguments passed to `build.sh` by the user. The second part compiles the compiler with gcc and executes the binary with the path to `program.txt` as the first argument. The third and last part calls `asm/build_asm.sh` when appropriate. The script `build_asm.sh` uses nasm and ld to assemble and link the generated and prewritten x86_64 assembly. Generated asembly can be found in `asm/program.asm`.
+The build script has three parts. Part one handles flags/arguments passed to `build.sh` by the user. Part two compiles the compiler with `gcc` and executes the binary. The path to `program.txt` is provided to the compiler as its first command line argument. During the code generation stage of execution the compiler will save the generated assembly to `asm/program.asm`. The third part calls `asm/build_asm.sh` which assembles, linkes, and executes the assembly. `build_asm.sh` uses `nasm` to assemble and `ld` to link the generated and prewritten x86_64 assembly. The prewritten assembly provides a built in way to print the result of the generated assembly.
 
 ## Supported Operators
 - `+`  <- addition
