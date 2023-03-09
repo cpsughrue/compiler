@@ -17,8 +17,10 @@ done
 
 cd src
 
+compiler=/home/cpsughrue/llvm-project/build/bin/clang
+
 # compile and execute
-gcc -I../include main.c scanner.c parser.c utils.c code_gen.c -o compiler $log
+$compiler -I../include main.c scanner.c parser.c utils.c code_gen.c -o compiler $log -v
 ./compiler ../program.txt $scan
 
 # execute generated assembly if compiler successfully generated assembly
