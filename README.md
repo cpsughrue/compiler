@@ -41,7 +41,7 @@ The build script has three parts. Part one handles flags/arguments passed to `bu
 - Negative exponents evauate to 0 (related to the lack of floating point support)
     - `4 ^ -3 = 0`
 - Limited error detection
-    - if there are multiple invalid tokens or multiple syntax errors the compiler will only identify the first one, print the error to the consol, and exit
+    - If there are multiple invalid tokens or multiple syntax errors the compiler will only identify the first one, print the error to the consol, and exit
 
 ## Example Valid Math Expressions
 - `3 + -2`
